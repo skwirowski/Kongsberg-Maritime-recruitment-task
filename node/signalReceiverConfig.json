@@ -1,0 +1,19 @@
+{
+    "Receivers": [
+        {
+            "id": 1,
+            "sensorSubscription": "sensor_id_01",
+            "isActive": true
+        },
+        {
+            "id": 2,
+            "sensorSubscription": "sensor_id_02",
+            "isActive": true
+        },
+        {
+            "id": 3,
+            "sensorSubscription": "sensor_id_03",
+            "isActive": true
+        }
+    ]
+}
