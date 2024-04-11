@@ -1,26 +1,48 @@
 # Kongsberg-Maritime-recruitment-task
+
 Kongsberg Maritime Software Engineer Recruitment Task
 
-1. Tech:
-    - JS/TS
-    - React
-    - .NET
-    - Azure
-    - SQL / NoSQL
-    - WebSocets
-    - REST API
-2. Create simulator for each sensor.  
-- The simulator should transmit messages wiht defined frequency.  
-- The simulator should transmit messages that follows the scheme:  
-$FIX, [ID], [TYPE], [VALUE], [QUALITY] *, i.e.  
-$FIX, 3, Speed, 192, Normal *
-3. Create classifier that signals the quality of each message's value.
-4. Create receiver that should accept and analyze the messages sent from a sensor.  
-- The receiver should be able to analyze the contents of each telegram.  
-- The receiver should present the data in human readable format.  
-- The receiver should highlight the Warnings and Alarms
-5. Each sensor can be listened by 0 to N receivers.
-6. Each receiver can listen to only one sensor.
-7. Create configuration file for receivers.
-- Determine which sensor is listened to by which receiver.
-- Determine which receiver is active.
+# Technology
+
+## ![.NET](./resources/dotnet.png ".NET") ![Azure](./resources/azure.png "Azure") ![Service Bus](./resources/service_bus.png "Service Bus")
+
+.NET program uses **Microsoft Azure Service Bus Topics and Services** to gather sensor messages and pass them through to receivers.
+
+## ![Node.js](./resources/nodejs.png "Node.js") ![Express](./resources/express.png "Express") ![TypeScript](./resources/typescript.png "TypeScript")
+
+Node.js script using **Express**, **TypeScript** and **@azure/service-bus** package for MS Azure Service Bus connection.  
+Node.js version: `v20.12.2`  
+npm version: `10.5.0`
+
+## Service Bus setup
+
+There's service bus with one **Topic** created in the Azure portal. The Topic has **3 Subscriptions** set up, one for each sensor. Each Subscription use correlation filter which evaluates messageId key and its value.
+
+# How to run the project
+
+## .NET
+
+1. Input application secrets for `Microsoft.Extensions.Configuration` in `secrets.json` file.
+
+```javascript
+{
+  "namespaceConnectionString": "<CONNECTION_STRING>",
+  "topicName": "<TOPIC_NAME>"
+}
+```
+
+2. Build the solution and run it.
+3. The console will appear informing which baches of data has been sent to Service Bus.
+
+![.NET Console](./resources/dotnet_console.png ".NET Console")
+
+## Node.js
+
+1. Copy `.env_default` file and change its name to `.env`.
+2. Input port on wich you want your app to be run on (`3000` is default) and application secrets in `.env` file.
+3. Go inside `node` folder and run:  
+   `npm install`  
+   `npm run dev`
+4. If the .NET application is running and sending messages, then Node.js app will log received sensor messages in the console.
+
+![Node.js Console](./resources/node_console.png "Node.js Console")
